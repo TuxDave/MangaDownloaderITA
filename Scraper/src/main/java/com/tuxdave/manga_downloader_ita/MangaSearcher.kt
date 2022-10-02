@@ -59,8 +59,6 @@ fun search(
         }
     }
 
-    println(entries[1])
-
     val mangas = mutableListOf<Manga>();
     run{
         var manga: Manga
@@ -95,18 +93,10 @@ private fun parseManga(html: Element): Manga{
     try {
         refArtista = URI(html.getElementsByClass("artist")[0].getElementsByTag("a")[0].attr("href"))
     }catch (_: Exception){}
-    val artista: Artista = Artista(
-        html.getElementsByClass("artist")[0].getElementsByTag("a")[0].html(),
-        refArtista
-    )
     var refAutore: URI? = null
     try{
         refAutore = URI(html.getElementsByClass("Author")[0].getElementsByTag("a")[0].attr("href"))
     }catch (_: Exception){}
-    val autore = Autore(
-        html.getElementsByClass("author")[0].getElementsByTag("a")[0].html(),
-        refAutore
-    )
     var refGenere: URI? = null
 
     var generi = mutableListOf<Genere>()
@@ -126,8 +116,16 @@ private fun parseManga(html: Element): Manga{
     return Manga(
         titolo = html.getElementsByClass("manga-title")[0].html(),
         ref = ref,
-        artista = artista,
-        autore = autore,
+        artista = try{Artista(
+            html.getElementsByClass("artist")[0].getElementsByTag("a")[0].html(),
+            refArtista
+        )}catch (e: Exception){null},
+        autore = try{
+            Autore(
+                html.getElementsByClass("author")[0].getElementsByTag("a")[0].html(),
+                refAutore
+            )
+        }catch (e: Exception){null},
         generi = generi.toList(),
         stato = Stato.get(html.getElementsByClass("status")[0].html()),
         tipo = html.getElementsByClass("genre")[0].getElementsByTag("a")[0].html(),

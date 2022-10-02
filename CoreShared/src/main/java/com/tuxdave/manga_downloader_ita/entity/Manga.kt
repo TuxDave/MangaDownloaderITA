@@ -7,8 +7,8 @@ data class Manga(
     val ref: URI?,
     val tipo: String,
     val stato: Stato,
-    val autore: Autore,
-    val artista: Artista,
+    val autore: Autore?,
+    val artista: Artista?,
     val generi: List<Genere>,
     val storia: String,
     val imgLink: URI? = null
