@@ -1,10 +1,11 @@
 package com.tuxdave.manga_downloader_ita
 
-import com.tuxdave.manga_downloader_ita.entity.Manga
+import com.tuxdave.manga_downloader_ita.entity.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import java.net.URL
+import java.lang.Exception
+import java.net.URI
 
 enum class SearchOrderParam {
     A_Z,
@@ -58,6 +59,8 @@ fun search(
         }
     }
 
+    println(entries[1])
+
     val mangas = mutableListOf<Manga>();
     run{
         var manga: Manga
@@ -69,15 +72,66 @@ fun search(
     for(listener in listeners){
         listener.pock(100)
     }
-    println(entries[1])
+
     return mangas
 }
 
 private fun parseManga(html: Element): Manga{
-    //TODO: comporre URL in modo che se si rompe non mi rompe tutta la ricerca
+    var ref: URI? = null
+    try{
+        ref = URI(html.getElementsByClass("manga-title")[0].attr("href"))
+    }catch (e: Exception){/*se l'url del link è mal formato, isi amen rimane null*/}
+    var imgRef: URI? = null
+    try{
+        imgRef = URI(
+            html
+                .getElementsByTag("a")[0]
+                .getElementsByTag("img")[0]
+                .attr("src")
+        )
+    }catch (_: Exception){} //ignored eghein (sì in italiese)
+
+    var refArtista: URI? = null
+    try {
+        refArtista = URI(html.getElementsByClass("artist")[0].getElementsByTag("a")[0].attr("href"))
+    }catch (_: Exception){}
+    val artista: Artista = Artista(
+        html.getElementsByClass("artist")[0].getElementsByTag("a")[0].html(),
+        refArtista
+    )
+    var refAutore: URI? = null
+    try{
+        refAutore = URI(html.getElementsByClass("Author")[0].getElementsByTag("a")[0].attr("href"))
+    }catch (_: Exception){}
+    val autore = Autore(
+        html.getElementsByClass("author")[0].getElementsByTag("a")[0].html(),
+        refAutore
+    )
+    var refGenere: URI? = null
+
+    var generi = mutableListOf<Genere>()
+    run{
+        val unparsedGenres = html.getElementsByClass("genres")[0].getElementsByTag("a")
+        for(genere in unparsedGenres){
+            generi.add(
+                Genere(
+                    genere.html(),
+                    try { URI(genere.attr("href")) } catch (e: Exception) { null }
+            )
+            )
+        }
+    }
+
     val html = html.getElementsByClass("content")[0]
     return Manga(
         titolo = html.getElementsByClass("manga-title")[0].html(),
-        ref = ref
+        ref = ref,
+        artista = artista,
+        autore = autore,
+        generi = generi.toList(),
+        stato = Stato.get(html.getElementsByClass("status")[0].html()),
+        tipo = html.getElementsByClass("genre")[0].getElementsByTag("a")[0].html(),
+        storia = html.getElementsByClass("story")[0].html().split("</span>")[1].trim(),
+        imgLink = imgRef
     )
 }

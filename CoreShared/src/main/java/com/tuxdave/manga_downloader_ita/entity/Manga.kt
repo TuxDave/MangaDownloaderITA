@@ -1,15 +1,15 @@
 package com.tuxdave.manga_downloader_ita.entity
 
-import java.net.URL
+import java.net.URI
 
-class Manga(
+data class Manga(
     val titolo: String,
-    val ref: URL?,
+    val ref: URI?,
     val tipo: String,
-    val stato: Boolean,
+    val stato: Stato,
     val autore: Autore,
     val artista: Artista,
     val generi: List<Genere>,
     val storia: String,
-    val imgLink: URL? = null
+    val imgLink: URI? = null
 )
