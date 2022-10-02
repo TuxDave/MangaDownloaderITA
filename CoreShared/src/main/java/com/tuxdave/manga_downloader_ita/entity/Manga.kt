@@ -4,6 +4,7 @@ import java.net.URL
 
 class Manga(
     val titolo: String,
+    val ref: URL?,
     val tipo: String,
     val stato: Boolean,
     val autore: Autore,
