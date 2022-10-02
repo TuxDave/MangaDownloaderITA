@@ -1,5 +1,10 @@
 package com.tuxdave.manga_downloader_ita
 
 fun main() {
-    search("to")
+    search(
+        "to",
+        listeners = arrayOf(
+            SearchProgressionListener { percentage -> println("${percentage}%") }
+        )
+    )
 }

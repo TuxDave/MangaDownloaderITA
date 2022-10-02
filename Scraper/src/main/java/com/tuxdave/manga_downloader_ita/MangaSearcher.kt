@@ -1,7 +1,6 @@
 package com.tuxdave.manga_downloader_ita
 
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 
@@ -14,7 +13,21 @@ enum class SearchOrderParam {
     }
 }
 
-fun search(name: String, order: SearchOrderParam = SearchOrderParam.MOST_READ){
+class SearchProgressionListener(
+    val activationFunction: (percentage: Int) -> Unit
+){
+    fun pock(percentage: Int){
+        activationFunction(percentage)
+    }
+}
+
+fun search(
+    name: String,
+    order: SearchOrderParam = SearchOrderParam.MOST_READ,
+    listeners: Array<SearchProgressionListener> = arrayOf()
+){
+    for(listener in listeners) listener.pock(0)
+
     val result = Jsoup.connect("${SITE_BASE}archive?keyword=${name}&sort=${order.toString()}")
         .get()
     val body = result.body()
@@ -27,7 +40,6 @@ fun search(name: String, order: SearchOrderParam = SearchOrderParam.MOST_READ){
         var page: Element? = null
         var pageEntries: Elements? = null
         for(i in 1 .. pages){
-            println("tuc")
             page = Jsoup.connect("${SITE_BASE}archive?keyword=${name}&sort=${order.toString()}&page=$i")
                 .get()
                 .body()
@@ -37,7 +49,13 @@ fun search(name: String, order: SearchOrderParam = SearchOrderParam.MOST_READ){
             for(entry in pageEntries){
                 entries.add(entry)
             }
+            if(i != pages)
+                for(l in listeners){
+                    l.pock(i*100/pages)
+                }
         }
     }
-    print(entries.size)
+    for(listener in listeners){
+        listener.pock(100)
+    }
 }
