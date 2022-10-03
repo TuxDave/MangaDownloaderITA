@@ -12,4 +12,18 @@ data class Manga(
     val generi: List<Genere>,
     val storia: String,
     val imgLink: URI? = null
-)
+){
+    var volumiTotali: Int? = null
+        private set(value) {field = value}
+    var capitoliTotali: Int? = null
+        private set(value) {field = value}
+
+    var open: Boolean = false
+        private set(value) { field = value }
+
+    fun open(cap: Int, vol: Int): Unit {
+        capitoliTotali = cap
+        volumiTotali = vol
+        open = true
+    }
+}
