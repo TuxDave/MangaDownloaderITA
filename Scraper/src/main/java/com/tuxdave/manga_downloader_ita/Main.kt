@@ -1,5 +1,7 @@
 package com.tuxdave.manga_downloader_ita
 
+import java.net.URI
+
 fun main() {
     val mangas = search(
         "tokyo ghoul",
@@ -9,7 +11,7 @@ fun main() {
         )*/
     )
     openManga(mangas[0])
-    println(mangas[0].open)
-    println(mangas[0].volumiTotali)
-    println(mangas[0].capitoliTotali)
+
+   downloadVolume(mangas[0], 1)
+//    downloadCapitolo(URI("https://www.mangaworld.in/manga/678/toukyou-ghoul/read/5f77d61e15ab860853c04ad3"))
 }
