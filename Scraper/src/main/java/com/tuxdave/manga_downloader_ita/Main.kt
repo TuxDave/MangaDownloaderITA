@@ -4,14 +4,23 @@ import java.net.URI
 
 fun main() {
     val mangas = search(
-        "tokyo ghoul",
+        "mirai nikk",
         SearchOrderParam.MOST_READ,
-        /*listeners = arrayOf(
-            SearchProgressionListener { percentage -> println("${percentage}%") }
-        )*/
+        listeners = listOf(
+            PercentageListener("search", { percentage, id -> println("${percentage}%") })
+        )
     )
     openManga(mangas[0])
-
-   downloadVolume(mangas[0], 1)
-//    downloadCapitolo(URI("https://www.mangaworld.in/manga/678/toukyou-ghoul/read/5f77d61e15ab860853c04ad3"))
+    downloadManga(
+        mangas[0],
+        listeners = listOf(
+            PercentageListener("Manga", { p, id -> println("$id: $p%")})
+        ),
+        volumiListeners = listOf(
+            PercentageListener("Volume", { p, id -> println("\t$id: $p%")})
+        ),
+        capitoliListeners = listOf(
+            PercentageListener("Capitolo", { p, id -> println("\t\t$id: $p%")})
+        )
+    )
 }

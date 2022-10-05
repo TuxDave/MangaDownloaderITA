@@ -16,20 +16,20 @@ enum class SearchOrderParam {
     }
 }
 
-class SearchProgressionListener(
-    val activationFunction: (percentage: Int) -> Unit
-){
-    fun pock(percentage: Int){
-        activationFunction(percentage)
-    }
-}
+//class SearchProgressionListener(
+//    val activationFunction: (percentage: Int) -> Unit
+//){
+//    fun pock(percentage: Int){
+//        activationFunction(percentage)
+//    }
+//}
 
 fun search(
     name: String,
     order: SearchOrderParam = SearchOrderParam.MOST_READ,
-    listeners: Array<SearchProgressionListener> = arrayOf()
+    listeners: List<PercentageListener> = listOf()
 ): List<Manga>{
-    for(listener in listeners) listener.pock(0)
+    listeners.pock(0)
 
     val result = Jsoup.connect("${SITE_BASE}archive?keyword=${name}&sort=${order.toString()}")
         .get()
@@ -53,9 +53,7 @@ fun search(
                 entries.add(entry)
             }
             if(i != pages)
-                for(l in listeners){
-                    l.pock(i*100/pages)
-                }
+                listeners.pock(i * 100 / pages)
         }
     }
 
@@ -67,9 +65,7 @@ fun search(
         }
     }
 
-    for(listener in listeners){
-        listener.pock(100)
-    }
+    listeners.pock(100)
 
     return mangas
 }
