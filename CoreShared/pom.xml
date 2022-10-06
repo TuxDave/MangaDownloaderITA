@@ -32,10 +32,20 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!--PDF-->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
-            <version>2.0.4</version>
+            <version>2.0.24</version>
+        </dependency>
+
+        <!--SERIALIZZAZIONE-->
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-serialization-cbor</artifactId>
+            <version>1.4.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -48,6 +58,7 @@
                 <configuration>
                     <jvmTarget>11</jvmTarget>
                     <compilerPlugins>
+                        <plugin>kotlinx-serialization</plugin>
                         <plugin>lombok</plugin>
                     </compilerPlugins>
                 </configuration>

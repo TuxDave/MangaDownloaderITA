@@ -1,7 +1,13 @@
 package com.tuxdave.manga_downloader_ita.entity
 
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import java.net.URI
 
+@Serializable
 data class Manga(
     val titolo: String,
     val ref: URI?,
@@ -19,11 +25,26 @@ data class Manga(
         private set(value) {field = value}
 
     var open: Boolean = false
-        private set(value) { field = value }
+        private set(value) {
+            field = value
+        }
 
     fun open(cap: Int, vol: Int): Unit {
         capitoliTotali = cap
         volumiTotali = vol
         open = true
     }
+}
+
+class MangaSerializer : KSerializer<Manga> {
+    override val descriptor: SerialDescriptor = Manga.serializer().descriptor
+
+    override fun deserialize(decoder: Decoder): Manga {
+        TODO("Not yet implemented")
+    }
+
+    override fun serialize(encoder: Encoder, value: Manga) {
+        //TODO: https://proandroiddev.com/custom-kotlinx-serializers-cd148e72d712
+    }
+
 }
