@@ -10,6 +10,7 @@ import java.net.URI
 @Serializable
 data class Manga(
     val titolo: String,
+    @Serializable(with = URISerializer::class)
     val ref: URI?,
     val tipo: String,
     val stato: Stato,
@@ -17,6 +18,7 @@ data class Manga(
     val artista: Artista?,
     val generi: List<Genere>,
     val storia: String,
+    @Serializable(with = URISerializer::class)
     val imgLink: URI? = null
 ){
     var volumiTotali: Int? = null
@@ -36,15 +38,14 @@ data class Manga(
     }
 }
 
-class MangaSerializer : KSerializer<Manga> {
+class URISerializer : KSerializer<URI> {
     override val descriptor: SerialDescriptor = Manga.serializer().descriptor
 
-    override fun deserialize(decoder: Decoder): Manga {
-        TODO("Not yet implemented")
+    override fun deserialize(decoder: Decoder): URI {
+        return URI(decoder.decodeString())
     }
 
-    override fun serialize(encoder: Encoder, value: Manga) {
-        //TODO: https://proandroiddev.com/custom-kotlinx-serializers-cd148e72d712
+    override fun serialize(encoder: Encoder, value: URI) {
+        encoder.encodeString(value.toString())
     }
-
 }

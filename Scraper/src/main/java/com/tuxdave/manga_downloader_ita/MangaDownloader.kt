@@ -147,8 +147,3 @@ fun downloadManga(
     listeners.pock(100)
     return Raccolta(manga, complete)
 }
-
-//TODO: Vedi per la creazione in un altro file kt dei PDF (e poi EBOOK)
-// https://www.baeldung.com/java-pdf-creation
-// https://pdfbox.apache.org/docs/2.0.3/javadocs/org/apache/pdfbox/pdmodel/graphics/image/PDImageXObject.html
-// https://pdfbox.apache.org/docs/2.0.3/javadocs/org/apache/pdfbox/pdmodel/graphics/image/JPEGFactory.html#createFromStream(org.apache.pdfbox.pdmodel.PDDocument,%20java.io.InputStream)

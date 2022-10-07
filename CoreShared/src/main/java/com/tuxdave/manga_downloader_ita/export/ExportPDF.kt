@@ -4,7 +4,11 @@ import com.tuxdave.manga_downloader_ita.view.Raccolta
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream
+import org.apache.pdfbox.pdmodel.font.PDFont
+import org.apache.pdfbox.pdmodel.font.PDType0Font
+import org.apache.pdfbox.pdmodel.font.PDType1CFont
 import org.apache.pdfbox.pdmodel.font.PDType1Font
+import org.apache.pdfbox.pdmodel.font.PDType3Font
 import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import java.io.ByteArrayInputStream
@@ -18,6 +22,7 @@ fun PDPageContentStream.print(s: String, x: Int, y: Int, h: Float) {
 }
 
 fun exportPDF(manga: Raccolta, file: File) {
+
     file.createNewFile()
 
     val doc = PDDocument()
@@ -37,10 +42,10 @@ fun exportPDF(manga: Raccolta, file: File) {
     for (vol in manga.elencoVolumi) {
         s += "$vol, "
     }
-    try {
-        s = s.substring(0, s.length - 2)
+    s = try {
+        s.substring(0, s.length - 2)
     } catch (_: Exception) {
-        s = "NONE"
+        "NONE"
     }
     cs.print("Volumi Scaricati: " + s, 25, 125, h)
     cs.close()

@@ -1,9 +1,15 @@
 package com.tuxdave.manga_downloader_ita.entity
 
+import kotlinx.serialization.Serializable
 import java.net.URI
 import java.net.URL
 
-data class Genere(val nome: String, val ref: URI?){
+@Serializable
+data class Genere(
+    val nome: String,
+    @Serializable(with = URISerializer::class)
+    val ref: URI?
+){
     companion object{
         //piccola memoization
         private val generi = mutableListOf<Genere>()
