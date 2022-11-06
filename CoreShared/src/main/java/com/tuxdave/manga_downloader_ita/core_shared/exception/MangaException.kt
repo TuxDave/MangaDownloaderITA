@@ -1,6 +1,4 @@
-package com.tuxdave.manga_downloader_ita.exception
-
-import com.tuxdave.manga_downloader_ita.entity.Manga
+package com.tuxdave.manga_downloader_ita.core_shared.exception
 
 open class MangaException(message: String) : RuntimeException(message)
 

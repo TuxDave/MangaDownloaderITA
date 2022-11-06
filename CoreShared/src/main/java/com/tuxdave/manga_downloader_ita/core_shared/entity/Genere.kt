@@ -1,8 +1,7 @@
-package com.tuxdave.manga_downloader_ita.entity
+package com.tuxdave.manga_downloader_ita.core_shared.entity
 
 import kotlinx.serialization.Serializable
 import java.net.URI
-import java.net.URL
 
 @Serializable
 data class Genere(

@@ -1,14 +1,10 @@
-package com.tuxdave.manga_downloader_ita.export
+package com.tuxdave.manga_downloader_ita.core_shared.export
 
-import com.tuxdave.manga_downloader_ita.view.Raccolta
+import com.tuxdave.manga_downloader_ita.core_shared.view.Raccolta
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream
-import org.apache.pdfbox.pdmodel.font.PDFont
-import org.apache.pdfbox.pdmodel.font.PDType0Font
-import org.apache.pdfbox.pdmodel.font.PDType1CFont
 import org.apache.pdfbox.pdmodel.font.PDType1Font
-import org.apache.pdfbox.pdmodel.font.PDType3Font
 import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import java.io.ByteArrayInputStream

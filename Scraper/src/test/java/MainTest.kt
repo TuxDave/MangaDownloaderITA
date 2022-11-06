@@ -1,12 +1,9 @@
-import com.tuxdave.manga_downloader_ita.*
-import com.tuxdave.manga_downloader_ita.export.exportPDF
-import com.tuxdave.manga_downloader_ita.view.Raccolta
+import com.tuxdave.manga_downloader_ita.core_shared.export.exportPDF
+import com.tuxdave.manga_downloader_ita.core_shared.view.Raccolta
 import kotlinx.serialization.cbor.Cbor
 import kotlinx.serialization.decodeFromByteArray
-import kotlinx.serialization.encodeToByteArray
 import java.io.File
 import java.io.FileInputStream
-import java.io.FileOutputStream
 
 fun main() {
 //    val mangas = search(

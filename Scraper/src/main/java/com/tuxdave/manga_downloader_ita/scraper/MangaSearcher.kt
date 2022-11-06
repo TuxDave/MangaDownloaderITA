@@ -1,10 +1,9 @@
-package com.tuxdave.manga_downloader_ita
+package com.tuxdave.manga_downloader_ita.scraper
 
-import com.tuxdave.manga_downloader_ita.entity.*
+import com.tuxdave.manga_downloader_ita.core_shared.entity.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
-import java.lang.Exception
 import java.net.URI
 
 enum class SearchOrderParam {

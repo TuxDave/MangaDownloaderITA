@@ -1,6 +1,6 @@
-package com.tuxdave.manga_downloader_ita.view
+package com.tuxdave.manga_downloader_ita.core_shared.view
 
-import com.tuxdave.manga_downloader_ita.entity.Manga
+import com.tuxdave.manga_downloader_ita.core_shared.entity.Manga
 import kotlinx.serialization.Serializable
 
 /**

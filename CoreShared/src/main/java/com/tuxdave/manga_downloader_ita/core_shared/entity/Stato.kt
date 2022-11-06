@@ -1,4 +1,4 @@
-package com.tuxdave.manga_downloader_ita.entity
+package com.tuxdave.manga_downloader_ita.core_shared.entity
 
 enum class Stato(value: Boolean) {
     FINITO(true),

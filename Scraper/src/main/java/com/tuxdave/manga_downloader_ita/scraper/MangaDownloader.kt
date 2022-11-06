@@ -1,11 +1,13 @@
 package com.tuxdave.manga_downloader_ita
 
-import com.tuxdave.manga_downloader_ita.entity.Manga
-import com.tuxdave.manga_downloader_ita.exception.MangaException
-import com.tuxdave.manga_downloader_ita.exception.VolumeOutOfRangeException
-import com.tuxdave.manga_downloader_ita.view.Capitolo
-import com.tuxdave.manga_downloader_ita.view.Raccolta
-import com.tuxdave.manga_downloader_ita.view.Volume
+import com.tuxdave.manga_downloader_ita.core_shared.entity.Manga
+import com.tuxdave.manga_downloader_ita.core_shared.exception.MangaException
+import com.tuxdave.manga_downloader_ita.core_shared.exception.VolumeOutOfRangeException
+import com.tuxdave.manga_downloader_ita.core_shared.view.Capitolo
+import com.tuxdave.manga_downloader_ita.core_shared.view.Raccolta
+import com.tuxdave.manga_downloader_ita.core_shared.view.Volume
+import com.tuxdave.manga_downloader_ita.scraper.PercentageListener
+import com.tuxdave.manga_downloader_ita.scraper.pock
 import org.apache.commons.io.FileUtils
 import org.jsoup.Jsoup
 import java.io.File

@@ -1,4 +1,4 @@
-package com.tuxdave.manga_downloader_ita
+package com.tuxdave.manga_downloader_ita.scraper
 
 val SITE_BASE = "https://www.mangaworld.in/"
 
