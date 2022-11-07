@@ -5,5 +5,7 @@
     <file url="file://$PROJECT_DIR$/CoreShared/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Scraper/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Scraper/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Telegram-UI/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Telegram-UI/src/main/resources" charset="UTF-8" />
   </component>
 </project>

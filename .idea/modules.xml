@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/CoreShared/Core-Shared.iml" filepath="$PROJECT_DIR$/CoreShared/Core-Shared.iml" />
       <module fileurl="file://$PROJECT_DIR$/MangaDownlaoderITA.iml" filepath="$PROJECT_DIR$/MangaDownlaoderITA.iml" />
       <module fileurl="file://$PROJECT_DIR$/Scraper/Scraper.iml" filepath="$PROJECT_DIR$/Scraper/Scraper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Telegram-UI/Telegram-UI.iml" filepath="$PROJECT_DIR$/Telegram-UI/Telegram-UI.iml" />
     </modules>
   </component>
 </project>
