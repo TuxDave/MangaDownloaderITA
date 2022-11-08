@@ -15,7 +15,7 @@ import java.net.URI
 import java.net.URL
 
 /*
-* questo file si occupa di, dato un manga, scaricare in ram tutte le
+* questo file si occupa di, dato un manga, scaricare in ram tutte le informazioni
 * */
 
 fun openManga(manga: Manga): Unit {
