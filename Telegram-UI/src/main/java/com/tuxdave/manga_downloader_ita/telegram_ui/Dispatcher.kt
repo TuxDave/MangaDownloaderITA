@@ -1,5 +1,6 @@
 package com.tuxdave.manga_downloader_ita.telegram_ui
 
+import com.tuxdave.manga_downloader_ita.telegram_ui.sessions.DownloadSession
 import com.tuxdave.manga_downloader_ita.telegram_ui.sessions.InfoSession
 import com.tuxdave.manga_downloader_ita.telegram_ui.sessions.SearchSession
 import com.tuxdave.manga_downloader_ita.telegram_ui.sessions.Session
@@ -15,6 +16,7 @@ object messageDispatcher {
     private fun CONSTRUCTORS(command: String, chatId: Long) = when(command) {
         "search" -> SearchSession(chatId, bot!!)
         "info" -> InfoSession(chatId, bot!!)
+        "download" -> DownloadSession(chatId, bot!!)
         else -> SearchSession(chatId, bot!!)
     }
 

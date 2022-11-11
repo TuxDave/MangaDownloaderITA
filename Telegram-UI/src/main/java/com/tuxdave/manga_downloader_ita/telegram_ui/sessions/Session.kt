@@ -6,7 +6,7 @@ import kotlin.coroutines.coroutineContext
 
 abstract class Session(_user: Long, protected val bot: MangaBot) {
     protected val user: Long
-    private var step = -1
+    protected var step = -1
 
     init {
         user = _user

@@ -1,4 +1,4 @@
-package com.tuxdave.manga_downloader_ita
+package com.tuxdave.manga_downloader_ita.scraper
 
 import com.tuxdave.manga_downloader_ita.core_shared.entity.Manga
 import com.tuxdave.manga_downloader_ita.core_shared.exception.MangaException
@@ -6,8 +6,6 @@ import com.tuxdave.manga_downloader_ita.core_shared.exception.VolumeOutOfRangeEx
 import com.tuxdave.manga_downloader_ita.core_shared.view.Capitolo
 import com.tuxdave.manga_downloader_ita.core_shared.view.Raccolta
 import com.tuxdave.manga_downloader_ita.core_shared.view.Volume
-import com.tuxdave.manga_downloader_ita.scraper.PercentageListener
-import com.tuxdave.manga_downloader_ita.scraper.pock
 import org.apache.commons.io.FileUtils
 import org.jsoup.Jsoup
 import java.io.File
@@ -130,20 +128,40 @@ fun downloadManga(
     manga: Manga,
     listeners: List<PercentageListener> = listOf(),
     volumiListeners: List<PercentageListener> = listOf(),
-    capitoliListeners: List<PercentageListener> = listOf()
+    capitoliListeners: List<PercentageListener> = listOf(),
+    from: Int = 1,
+    to: Int = manga.volumiTotali ?: 1,
+    skip: Array<Int> = arrayOf()
 ): Raccolta {
     if (!manga.open) {
         throw MangaException("Aprire il manga prima di tentare di scaricarlo")
     }
-    if (manga.volumiTotali == 0) {
+    if (manga.volumiTotali == null || manga.volumiTotali == 0) {
         throw VolumeOutOfRangeException("Il manga selezionato non ha volumi disponibili")
+    }
+    var to = to
+    if(to > manga.volumiTotali!!){
+        to = manga.volumiTotali!!
+    }
+    var from = from
+    if(from < 1){
+        from = 1
+    }
+    var skip = skip.toMutableList()
+    for(vol in skip){
+        if (vol !in from .. to){
+            skip.remove(vol)
+        }
     }
 
     listeners.pock(0)
 
     val complete = mutableListOf<Volume>()
-    for (vol in 1..(manga.volumiTotali!!)) {
-        listeners.pock(vol * 100 / manga.volumiTotali!!)
+    for (vol in from.. to) {
+        if(vol in skip){
+            continue
+        }
+        listeners.pock(vol * 100 / (to - from - skip.size))
         complete.add(downloadVolume(manga, vol, volumiListeners, capitoliListeners))
     }
     listeners.pock(100)

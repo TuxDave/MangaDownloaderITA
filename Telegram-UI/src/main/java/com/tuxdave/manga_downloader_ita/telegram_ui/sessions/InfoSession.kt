@@ -1,11 +1,10 @@
 package com.tuxdave.manga_downloader_ita.telegram_ui.sessions
 
 import com.tuxdave.manga_downloader_ita.core_shared.entity.Manga
-import com.tuxdave.manga_downloader_ita.openManga
+import com.tuxdave.manga_downloader_ita.scraper.openManga
 import com.tuxdave.manga_downloader_ita.scraper.SearchOrderParam
 import com.tuxdave.manga_downloader_ita.scraper.search
 import com.tuxdave.manga_downloader_ita.telegram_ui.MangaBot
-import java.util.*
 
 fun Manga.toStringTG(): String{
     return "Titolo: $titolo\n" +
@@ -14,8 +13,17 @@ fun Manga.toStringTG(): String{
             //"Stato: ${stato.toString().lowercase(Locale.getDefault()).split("_").joinToString(separator = " "){"${it.capitalize()}"}}\n" + TODO: fixare che non li riconosce giusti il parser
             "Autore: ${autore?.nome}, ${autore?.ref}\n" +
             "Autore: ${artista?.nome}, ${artista?.ref}\n" +
-            "Generi: ${generi.joinToString { "${it.nome}" }}\n\n" +
+            "Generi: ${generi.joinToString { it.nome }}\n\n" +
             "Storia: $storia\n\n"
+}
+
+fun Manga.toStringTGOpened(): String{
+    return if(open)
+        this.toStringTG() +
+//            "Volumi: ${List(volumiTotali!!){it + 1}.toList().joinToString(separator = ",")}"
+            "Volumi: ${volumiTotali!!}"
+    else
+        toStringTG()
 }
 
 class InfoSession(_user: Long, bot: MangaBot) : Session(_user, bot) {

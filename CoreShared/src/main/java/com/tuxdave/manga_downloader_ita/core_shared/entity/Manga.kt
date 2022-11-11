@@ -22,14 +22,12 @@ data class Manga(
     val imgLink: URI? = null
 ){
     var volumiTotali: Int? = null
-        private set(value) {field = value}
+        private set
     var capitoliTotali: Int? = null
-        private set(value) {field = value}
+        private set
 
     var open: Boolean = false
-        private set(value) {
-            field = value
-        }
+        private set
 
     fun open(cap: Int, vol: Int): Unit {
         capitoliTotali = cap
