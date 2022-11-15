@@ -3,6 +3,7 @@ package com.tuxdave.manga_downloader_ita.telegram_ui.sessions
 import com.tuxdave.manga_downloader_ita.core_shared.entity.Manga
 import com.tuxdave.manga_downloader_ita.scraper.*
 import com.tuxdave.manga_downloader_ita.telegram_ui.MangaBot
+import java.io.File
 import java.lang.NumberFormatException
 import java.util.*
 
@@ -120,10 +121,10 @@ class DownloadSession(_user: Long, bot: MangaBot) : Session(_user, bot) {
         val raccolta = downloadManga(
             step2Selected!!,
             listOf(
-                PercentageListener("Completamento Manga") { p, _ -> bot.send(user, "${p}%") }
+                PercentageListener("Completamento Manga") { p, _ -> bot.send(user, "Manga: ${p}%") }
             ),
             listOf(
-                PercentageListener("Completamento Volume") { p, _ -> bot.send(user, "\t${p}%") }
+                PercentageListener("Completamento Volume") { p, _ -> bot.send(user, "\tVolume: ${p}%") }
             ),
             from = from,
             to = to,
@@ -132,6 +133,9 @@ class DownloadSession(_user: Long, bot: MangaBot) : Session(_user, bot) {
         
         bot.send(user, "Scaricamento completato, attendi di ricevere il pdf!")
 
-        // TODO: Salvare in PDF in un luogo giusto e inviare il pdf (occhio a non accavallare i pdf in caso di download contemporaneo!) 
+        val file = File(System.getProperty("user.home") + "/.tuxdave/MangaDownloaderITA/temp/${user}.pdf")
+
+        bot.send(user, file)
+        file.deleteOnExit()
     }
 }

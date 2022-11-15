@@ -147,7 +147,7 @@ fun downloadManga(
     if(from < 1){
         from = 1
     }
-    var skip = skip.toMutableList()
+    val skip = skip.toMutableList()
     for(vol in skip){
         if (vol !in from .. to){
             skip.remove(vol)
@@ -161,7 +161,8 @@ fun downloadManga(
         if(vol in skip){
             continue
         }
-        listeners.pock(vol * 100 / (to - from - skip.size))
+        val n = vol * 100 / (to - from - skip.size + 1)
+        listeners.pock(n)
         complete.add(downloadVolume(manga, vol, volumiListeners, capitoliListeners))
     }
     listeners.pock(100)
