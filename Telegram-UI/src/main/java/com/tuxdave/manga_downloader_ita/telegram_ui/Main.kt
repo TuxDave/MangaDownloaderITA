@@ -11,7 +11,9 @@ fun main(args: Array<String>) {
         return
     }
 
-//    val file = File("${System.getProperty("java.home")}")
+    File("${System.getProperty("user.home")}/.tuxdave").mkdir()
+    File("${System.getProperty("user.home")}/.tuxdave/MangaDownloaderITA/").mkdir()
+    File("${System.getProperty("user.home")}/.tuxdave/MangaDownloaderITA/temp/").mkdir()
 
     val api = TelegramBotsApi(DefaultBotSession::class.java) //TODO: vedi come funziona
     try {

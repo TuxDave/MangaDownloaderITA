@@ -1,10 +1,10 @@
 package com.tuxdave.manga_downloader_ita.telegram_ui.sessions
 
 import com.tuxdave.manga_downloader_ita.core_shared.entity.Manga
+import com.tuxdave.manga_downloader_ita.core_shared.export.exportPDF
 import com.tuxdave.manga_downloader_ita.scraper.*
 import com.tuxdave.manga_downloader_ita.telegram_ui.MangaBot
 import java.io.File
-import java.lang.NumberFormatException
 import java.util.*
 
 fun String.isInt(): Boolean{
@@ -75,6 +75,10 @@ class DownloadSession(_user: Long, bot: MangaBot) : Session(_user, bot) {
         if (msg == "exit") {
             step = actions.size
             return
+        } else if (msg == "x") {
+            for (cap in 1..(step2Selected?.volumiTotali ?: 0)) {
+                toDownload.add(cap)
+            }
         } else if (msg.isInt()) {
             toDownload.add(msg.toInt())
         } else if (msg.contains("-")) {
@@ -130,12 +134,15 @@ class DownloadSession(_user: Long, bot: MangaBot) : Session(_user, bot) {
             to = to,
             skip = skip.toTypedArray()
         )
-        
+
         bot.send(user, "Scaricamento completato, attendi di ricevere il pdf!")
 
         val file = File(System.getProperty("user.home") + "/.tuxdave/MangaDownloaderITA/temp/${user}.pdf")
+        file.createNewFile()
+
+        exportPDF(raccolta, file)
 
         bot.send(user, file)
-        file.deleteOnExit()
+        file.delete()
     }
 }

@@ -157,11 +157,13 @@ fun downloadManga(
     listeners.pock(0)
 
     val complete = mutableListOf<Volume>()
+    var c = 0
     for (vol in from.. to) {
         if(vol in skip){
+            c++
             continue
         }
-        val n = vol * 100 / (to - from - skip.size + 1)
+        val n = ((from..to).indexOf(vol) + 1 - c) * 100 / (to - from - skip.size + 1)
         listeners.pock(n)
         complete.add(downloadVolume(manga, vol, volumiListeners, capitoliListeners))
     }
