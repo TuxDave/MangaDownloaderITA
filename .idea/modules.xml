@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/MangaDownlaoderITA.iml" filepath="$PROJECT_DIR$/MangaDownlaoderITA.iml" />
       <module fileurl="file://$PROJECT_DIR$/Scraper/Scraper.iml" filepath="$PROJECT_DIR$/Scraper/Scraper.iml" />
       <module fileurl="file://$PROJECT_DIR$/Telegram-UI/Telegram-UI.iml" filepath="$PROJECT_DIR$/Telegram-UI/Telegram-UI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Desktop_UI/desktop_ui.iml" filepath="$PROJECT_DIR$/Desktop_UI/desktop_ui.iml" />
     </modules>
   </component>
 </project>

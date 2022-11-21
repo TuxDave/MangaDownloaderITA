@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="desktop_ui" />
         <module name="Telegram-UI" />
         <module name="Core-Shared" />
         <module name="Scraper" />
@@ -14,6 +15,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Core-Shared" target="11" />
+      <module name="desktop_ui" target="1.5" />
       <module name="Scraper" target="11" />
       <module name="Telegram-UI" target="11" />
     </bytecodeTargetLevel>
