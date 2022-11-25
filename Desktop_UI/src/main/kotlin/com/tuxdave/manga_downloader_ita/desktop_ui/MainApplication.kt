@@ -9,7 +9,7 @@ class MainApplication : Application() {
     override fun start(stage: Stage) {
         val fxmlLoader = FXMLLoader(MainApplication::class.java.getResource("main-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 320.0, 240.0)
-        stage.title = "Hello!"
+        stage.title = "MangaDownloaderITA"
         stage.scene = scene
         stage.show()
     }
