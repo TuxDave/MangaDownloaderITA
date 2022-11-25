@@ -6,18 +6,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox fx:id="root" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tuxdave.manga_downloader_ita.desktop_ui.MainController">
+<HBox fx:id="root" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tuxdave.manga_downloader_ita.desktop_ui.MainController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+      <VBox minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
          <children>
             <HBox fillHeight="false" prefWidth="200.0" VBox.vgrow="NEVER">
                <children>
-                  <TextField fx:id="searchTextField" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#search" prefWidth="100.0" promptText="cerca..." HBox.hgrow="ALWAYS">
+                  <TextField fx:id="searchTextField" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" onAction="#searchManga" prefWidth="100.0" promptText="cerca..." text="One Piece" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="searchButton" accessibleRole="BUTTON" mnemonicParsing="false" onAction="#search" prefHeight="32.0" prefWidth="45.0">
+                  <Button fx:id="searchButton" accessibleRole="BUTTON" mnemonicParsing="false" onAction="#searchManga" prefHeight="32.0" prefWidth="45.0">
                      <graphic>
                         <ImageView fx:id="searchImage" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -27,28 +27,16 @@
                   </Button>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefWidth="200.0" VBox.vgrow="NEVER">
-               <children>
-                  <Label fx:id="searchingLabel" alignment="CENTER" contentDisplay="CENTER" opacity="0.0" prefHeight="22.0" text="Searching..." textAlignment="CENTER" textFill="#6b6b6b">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
+            <ProgressBar fx:id="searchProgressBar" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" opacity="0.0" prefHeight="20.0" progress="0.0" style="-fx-border-style: none; -fx-border-width: 0; -fx-border-insets: 0; -fx-padding: 0;" VBox.vgrow="NEVER" />
             <Label text="Risultati:" />
-            <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <ListView fx:id="resultsListView" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <ScrollBar fx:id="resultScrollBar" orientation="VERTICAL" />
-               </children>
-            </HBox>
+            <ListView fx:id="resultsListView" maxHeight="1.7976931348623157E308" prefWidth="200.0" VBox.vgrow="ALWAYS" />
          </children>
          <HBox.margin>
             <Insets />
          </HBox.margin>
       </VBox>
-      <Region id="spacer" prefHeight="200.0" prefWidth="50.0" HBox.hgrow="NEVER" />
+      <Region id="spacer" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="5.0" HBox.hgrow="NEVER" />
+      <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="400.0" style="-fx-background-color: red;" HBox.hgrow="ALWAYS" />
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

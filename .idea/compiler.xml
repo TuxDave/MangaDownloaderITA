@@ -15,7 +15,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Core-Shared" target="11" />
-      <module name="desktop_ui" target="1.5" />
+      <module name="desktop_ui" target="11" />
       <module name="Scraper" target="11" />
       <module name="Telegram-UI" target="11" />
     </bytecodeTargetLevel>
