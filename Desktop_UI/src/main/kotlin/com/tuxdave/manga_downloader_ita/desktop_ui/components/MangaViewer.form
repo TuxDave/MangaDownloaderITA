@@ -152,21 +152,31 @@
               <component id="84278" class="javax.swing.JList" binding="generiList">
                 <constraints/>
                 <properties>
+                  <background color="-855310"/>
                   <model/>
                 </properties>
               </component>
             </children>
           </scrollpane>
-          <component id="64a0e" class="javax.swing.JTextArea" binding="storiaTextArea">
+          <scrollpane id="774a3">
             <constraints>
-              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
+              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="100"/>
               </grid>
             </constraints>
-            <properties>
-              <editable value="false"/>
-            </properties>
-          </component>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="64a0e" class="javax.swing.JTextArea" binding="storiaTextArea">
+                <constraints/>
+                <properties>
+                  <background color="-855310"/>
+                  <editable value="false"/>
+                  <lineWrap value="true"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
         </children>
       </grid>
     </children>

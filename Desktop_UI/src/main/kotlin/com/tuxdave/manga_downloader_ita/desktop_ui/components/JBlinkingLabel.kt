@@ -26,6 +26,8 @@ class JBlinkingLabel(_defaultOpacity: Int) : JLabel() {
         blink()
     }
 
+    constructor() : this(0)
+
     fun blink(): Unit {
         if (blinking) {
             blinker = Thread() {

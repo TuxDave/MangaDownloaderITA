@@ -24,4 +24,8 @@ data class Genere(
             }
         }
     }
+
+    override fun toString(): String {
+        return nome;
+    }
 }

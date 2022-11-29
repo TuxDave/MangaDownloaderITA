@@ -3,14 +3,20 @@ package com.tuxdave.manga_downloader_ita.desktop_ui.components;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import com.tuxdave.manga_downloader_ita.core_shared.entity.Genere;
+import com.tuxdave.manga_downloader_ita.core_shared.entity.Manga;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 
-public class MangaViewer extends JPanel {
+import static com.tuxdave.manga_downloader_ita.scraper.MangaDownloaderKt.openManga;
+
+public class MangaViewer extends JPanel implements ActionListener {
     private JPanel contentPane;
     private JLabel imageLabel;
     private JTextField titoloTextField;
@@ -21,19 +27,74 @@ public class MangaViewer extends JPanel {
     private JTextField artistaTextField;
     private JTextArea storiaTextArea;
 
-    public MangaViewer() {
+    private Manga manga;
+
+    public MangaViewer(Manga manga) {
+        setManga(manga);
+
         add(contentPane);
-        try {
-            Image image;
-            URL url = new URL("https://static.wikia.nocookie.net/tokyoghoul/images/9/96/Tokyo_Ghoul_Stagione_2.png/revision/latest?cb=20170524162326&path-prefix=it");
-            image = ImageIO.read(url);
-            image = image.getScaledInstance(
-                    100,
-                    (100 * image.getHeight(this) / image.getWidth(this)),
-                    Image.SCALE_SMOOTH
-            );
-            imageLabel.setIcon(new ImageIcon(image));
-        } catch (IOException e) {
+
+        titoloTextField.addActionListener(this);
+    }
+
+    public Manga getManga() {
+        return manga;
+    }
+
+    public void setManga(Manga manga) {
+        this.manga = manga;
+        if (this.manga == null) {
+            return;
+        } else if (!manga.getOpen()) {
+            openManga(manga);
+        }
+        titoloTextField.setText(manga.getTitolo());
+        titoloTextField.setText(manga.getTipo());
+        statoTextField.setText(manga.getStato().name());
+        autoreTextField.setText(manga.getAutore().getNome());
+        artistaTextField.setText(manga.getArtista().getNome());
+        {
+            DefaultListModel<Genere> model = new DefaultListModel<>();
+            for (Genere genere : manga.getGeneri()) {
+                model.addElement(genere);
+            }
+            generiList.setModel(model);
+        }
+        storiaTextArea.setText(manga.getStoria());
+
+        MangaViewer self = this;
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                imageLabel.setIcon(null);
+                try {
+                    Image image;
+                    URL url = manga.getImgLink().toURL();
+                    image = ImageIO.read(url);
+                    image = image.getScaledInstance(
+                            100,
+                            (100 * image.getHeight(self) / image.getWidth(self)),
+                            Image.SCALE_SMOOTH
+                    );
+                    imageLabel.setIcon(new ImageIcon(image));
+                } catch (IOException e) {
+                    imageLabel.setIcon(
+                            new ImageIcon(
+                                    Toolkit.getDefaultToolkit().getImage(
+                                            getClass().getResource("/com/tuxdave/manga_downloader_ita/desktop_ui/assets/imgs/not_found.jpeg")
+                                    )
+                            )
+                    );
+                }
+            }
+        }.start();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        if (actionEvent.getSource() == titoloTextField) {
+            System.out.println("we");
         }
     }
 
@@ -101,12 +162,17 @@ public class MangaViewer extends JPanel {
         final JScrollPane scrollPane1 = new JScrollPane();
         panel1.add(scrollPane1, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(-1, 100), new Dimension(-1, 100), new Dimension(-1, 100), 0, false));
         generiList = new JList();
+        generiList.setBackground(new Color(-855310));
         final DefaultListModel defaultListModel1 = new DefaultListModel();
         generiList.setModel(defaultListModel1);
         scrollPane1.setViewportView(generiList);
+        final JScrollPane scrollPane2 = new JScrollPane();
+        panel1.add(scrollPane2, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(-1, 100), null, null, 0, false));
         storiaTextArea = new JTextArea();
+        storiaTextArea.setBackground(new Color(-855310));
         storiaTextArea.setEditable(false);
-        panel1.add(storiaTextArea, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        storiaTextArea.setLineWrap(true);
+        scrollPane2.setViewportView(storiaTextArea);
     }
 
     /** @noinspection ALL */
