@@ -26,7 +26,7 @@ class JSearchField : JTextField(), MouseMotionListener {
                         actionListeners.forEach { actionListener ->
                             actionListener.actionPerformed(
                                 ActionEvent(
-                                    "",
+                                    self,
                                     0,
                                     ""
                                 )
@@ -50,8 +50,6 @@ class JSearchField : JTextField(), MouseMotionListener {
         g.color = Color.GRAY
         if (text == "") {
             g.drawString(placeHolder, 5, height - (height / 2 - 5))
-        } else {
-            return
         }
         g.drawImage(
             img,

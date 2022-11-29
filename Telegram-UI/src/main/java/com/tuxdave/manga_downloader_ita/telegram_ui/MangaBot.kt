@@ -6,7 +6,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.InputFile
 import org.telegram.telegrambots.meta.api.objects.Update
 import java.io.File
-import java.util.*
 
 class MangaBot(private val tk: String) : TelegramLongPollingBot() {
     init {
@@ -24,12 +23,6 @@ class MangaBot(private val tk: String) : TelegramLongPollingBot() {
     override fun onUpdateReceived(data: Update?) {
         if (data == null) return
         messageDispatcher.dispatch(data.message)
-//        if (data.message.isUserMessage) {
-//            val msg = data.message
-//            send(msg.chatId, msg.text.uppercase(Locale.getDefault()))
-//        } else {
-//            execute(SendMessage(data.message.chatId.toString(), "Scrivimi direttamente se hai coraggio..."))
-//        }
     }
 
     fun send(who: Long, what: String): Unit {

@@ -3,20 +3,29 @@ package com.tuxdave.manga_downloader_ita.desktop_ui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import com.tuxdave.manga_downloader_ita.core_shared.entity.Manga;
 import com.tuxdave.manga_downloader_ita.desktop_ui.components.JBlinkingLabel;
 import com.tuxdave.manga_downloader_ita.desktop_ui.components.JSearchField;
+import com.tuxdave.manga_downloader_ita.desktop_ui.components.MangaViewer;
+import com.tuxdave.manga_downloader_ita.scraper.SearchOrderParam;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import static com.tuxdave.manga_downloader_ita.scraper.MangaSearcherKt.search;
 
 public class MainForm extends JPanel {
 
     private JPanel panel1;
     private JSearchField searchField;
-    private JList list1;
+    private JList resultsList;
     private JBlinkingLabel searchingLabel;
 
     /**
@@ -31,23 +40,22 @@ public class MainForm extends JPanel {
         panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 3, new Insets(5, 5, 5, 5), -1, -1));
         final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel2.setBackground(new Color(-9375227));
-        panel1.add(panel2, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(200, -1), null, null, 0, false));
-        final JPanel panel3 = new JPanel();
-        panel3.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel1.add(panel3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(-1, 300), null, null, 0, false));
+        panel2.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.add(panel2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(-1, 300), null, null, 0, false));
         searchField = new JSearchField();
-        searchField.setText("");
-        panel3.add(searchField, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(250, -1), null, null, 0, false));
-        list1 = new JList();
-        panel3.add(list1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        searchField.setPlaceHolder("Cerca...");
+        searchField.setText("one piece");
+        panel2.add(searchField, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(250, -1), null, null, 0, false));
+        resultsList = new JList();
+        panel2.add(resultsList, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         Font searchingLabelFont = this.$$$getFont$$$(null, Font.BOLD, 16, searchingLabel.getFont());
         if (searchingLabelFont != null) searchingLabel.setFont(searchingLabelFont);
         searchingLabel.setText("Searching...");
-        panel3.add(searchingLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, 1, null, null, null, 0, false));
+        panel2.add(searchingLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, 1, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel1.add(spacer1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, 1, new Dimension(5, -1), null, new Dimension(5, -1), 0, false));
+        final MangaViewer nestedForm1 = new MangaViewer();
+        panel1.add(nestedForm1.$$$getRootComponent$$$(), new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /** @noinspection ALL */
@@ -87,6 +95,71 @@ public class MainForm extends JPanel {
         this.add(panel1);
 
         searchingLabel.setDuration(750);
+
+        Listener l = new Listener();
+        searchField.addActionListener(l);
         // TODO: 26/11/22 popolare la jlist con i risultati di ricerca 
+    }
+
+    private class Listener implements ActionListener {
+        public Listener() {
+            super();
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            if (searchField.equals(actionEvent.getSource())) {
+                if (searchField.getText().equals("")) {
+                    searchField.setBackground(Color.red);
+                } else {
+                    searchField.setBackground(Color.white);
+                    searchingLabel.setBlinking(true);
+                    class MangaCellRenderer extends JLabel implements ListCellRenderer<Manga> {
+
+                        @Override
+                        public Component getListCellRendererComponent(
+                                JList<? extends Manga> jList,
+                                Manga manga,
+                                int i,
+                                boolean isSelected,
+                                boolean b1
+                        ) {
+                            setText(manga.getTitolo());
+
+                            Color foreground;
+
+                            if (isSelected) {
+                                foreground = Color.red;
+                            } else {
+                                foreground = Color.black;
+                            }
+
+                            setForeground(foreground);
+                            repaint();
+                            return this;
+                        }
+                    }
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            super.run();
+                            List<Manga> results = search(
+                                    searchField.getText(),
+                                    SearchOrderParam.MOST_READ,
+                                    new ArrayList<>()
+                            );
+                            DefaultListModel<Manga> model = new DefaultListModel<>();
+                            for (Manga m : results) {
+                                model.addElement(m);
+                            }
+                            resultsList.setCellRenderer(new MangaCellRenderer());
+                            resultsList.setModel(model);
+
+                            searchingLabel.setBlinking(false);
+                        }
+                    }.start();
+                }
+            }
+        }
     }
 }

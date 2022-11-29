@@ -6,8 +6,10 @@ import javax.swing.JLabel
 class JBlinkingLabel(_defaultOpacity: Int) : JLabel() {
     var blinking = false
         set(value) {
+            val alreadyBlinking = value == field
             field = value
-            blink()
+            if (!alreadyBlinking)
+                blink()
         }
 
     /**Millisecondi*/
