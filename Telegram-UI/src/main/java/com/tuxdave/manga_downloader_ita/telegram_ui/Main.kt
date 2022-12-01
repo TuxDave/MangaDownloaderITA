@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
     File("${System.getProperty("user.home")}/.tuxdave/MangaDownloaderITA/").mkdir()
     File("${System.getProperty("user.home")}/.tuxdave/MangaDownloaderITA/temp/").mkdir()
 
-    val api = TelegramBotsApi(DefaultBotSession::class.java) //TODO: vedi come funziona
+    val api = TelegramBotsApi(DefaultBotSession::class.java)
     try {
         api.registerBot(MangaBot(args[0]))
     } catch (e: TelegramApiRequestException) {

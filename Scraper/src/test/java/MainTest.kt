@@ -1,6 +1,5 @@
 import com.tuxdave.manga_downloader_ita.core_shared.export.exportPDF
 import com.tuxdave.manga_downloader_ita.core_shared.view.Raccolta
-import com.tuxdave.manga_downloader_ita.scraper.PercentageListener
 import kotlinx.serialization.cbor.Cbor
 import kotlinx.serialization.decodeFromByteArray
 import java.io.File
@@ -41,5 +40,5 @@ fun main() {
     )
     reader.close()
 
-//    println(Cbor.encodeToHexString(downloadManga(mangas[0]))) //TODO: verificare se funziona
+//    println(Cbor.encodeToHexString(downloadManga(mangas[0])))
 }
