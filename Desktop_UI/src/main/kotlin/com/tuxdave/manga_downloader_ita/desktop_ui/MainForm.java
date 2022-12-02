@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.tuxdave.manga_downloader_ita.desktop_ui.UtilsKt.sort;
 import static com.tuxdave.manga_downloader_ita.scraper.MangaDownloaderKt.openManga;
 import static com.tuxdave.manga_downloader_ita.scraper.MangaSearcherKt.search;
 
@@ -112,7 +113,7 @@ public class MainForm extends JPanel {
         resultsList.setFixedCellWidth(searchField.getWidth());
 
         Listener l = new Listener();
-        searchField.addActionListener(l); // TODO: 01/12/22 prima di aggiungere tutto mettere in ordine per somiglianza del titolo
+        searchField.addActionListener(l);
         resultsList.addListSelectionListener(l);
     }
 
@@ -164,6 +165,7 @@ public class MainForm extends JPanel {
                                     SearchOrderParam.MOST_READ,
                                     new ArrayList<>()
                             );
+                            results = sort(results);
                             DefaultListModel<Manga> model = new DefaultListModel<>();
                             for (Manga m : results) {
                                 model.addElement(m);
@@ -184,8 +186,6 @@ public class MainForm extends JPanel {
             public Manga getManga() {
                 return manga;
             }
-
-            ;
 
             public Opener(Manga manga) {
                 super();
