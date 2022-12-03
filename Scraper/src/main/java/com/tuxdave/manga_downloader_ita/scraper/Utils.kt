@@ -1,6 +1,6 @@
 package com.tuxdave.manga_downloader_ita.scraper
 
-val SITE_BASE = "https://www.mangaworld.in/"
+val SITE_BASE = "https://www.mangaworld.so/"
 
 open class PercentageListener(
     val id: String = "",

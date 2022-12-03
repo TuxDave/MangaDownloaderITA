@@ -5,9 +5,9 @@ import java.util.*
 
 fun sortByCorrispondenza(source: List<Manga>, searchCriteria: String): List<Manga>{
     val source = source.toMutableList()
-    source.sortWith(kotlin.Comparator { t, t2 ->
+    source.sortWith { t, t2 ->
         (t2.titolo somiglianza searchCriteria) - (t.titolo somiglianza searchCriteria)
-    })
+    }
     return source.toList()
 }
 
