@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.tuxdave.manga_downloader_ita.desktop_ui.UtilsKt.sort;
+import static com.tuxdave.manga_downloader_ita.desktop_ui.UtilsKt.sortByCorrispondenza;
 import static com.tuxdave.manga_downloader_ita.scraper.MangaDownloaderKt.openManga;
 import static com.tuxdave.manga_downloader_ita.scraper.MangaSearcherKt.search;
 
@@ -165,7 +165,8 @@ public class MainForm extends JPanel {
                                     SearchOrderParam.MOST_READ,
                                     new ArrayList<>()
                             );
-                            results = sort(results);
+                            // TODO: magari chiedere se si vuole ordinare per corrispondenza o visualizzazioni (spoiler non ho questo dato)
+                            results = sortByCorrispondenza(results, searchField.getText());
                             DefaultListModel<Manga> model = new DefaultListModel<>();
                             for (Manga m : results) {
                                 model.addElement(m);
