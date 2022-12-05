@@ -17,6 +17,7 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -121,6 +122,7 @@ public class MainForm extends JPanel {
         Listener l = new Listener();
         searchField.addActionListener(l);
         resultsList.addListSelectionListener(l);
+        downloadButton.addActionListener(l);
     }
 
     private class Listener implements ActionListener, ListSelectionListener {
@@ -129,7 +131,6 @@ public class MainForm extends JPanel {
 
         public Listener() {
             super();
-
         }
 
         @Override
@@ -185,7 +186,17 @@ public class MainForm extends JPanel {
                     }.start();
                 }
             } else if (downloadButton.equals(actionEvent.getSource())) {
-                // TODO: 03/12/22 scaricare il manga
+                System.out.println("wewe");
+                // TODO: 05/12/22 Fare selezionare destinazione e volumi desiderati
+                if (mangaViewer.getManga() != null)
+                    DownloaderDialog.show(
+                            mangaViewer.getManga(),
+                            new File("/home/tuxdave/Scrivania/out.pdf"),
+                            1,
+                            1,
+                            new int[]{}
+                    );
+                // TODO: 05/12/22 vedi perchè non va 
             }
         }
 

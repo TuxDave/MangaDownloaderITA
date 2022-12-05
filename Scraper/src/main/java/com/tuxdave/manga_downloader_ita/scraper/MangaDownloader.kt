@@ -131,7 +131,7 @@ fun downloadManga(
     capitoliListeners: List<PercentageListener> = listOf(),
     from: Int = 1,
     to: Int = manga.volumiTotali ?: 1,
-    skip: Array<Int> = arrayOf()
+    skip: IntArray = intArrayOf()
 ): Raccolta {
     if (!manga.open) {
         throw MangaException("Aprire il manga prima di tentare di scaricarlo")

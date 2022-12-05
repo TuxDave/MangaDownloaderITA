@@ -132,7 +132,7 @@ class DownloadSession(_user: Long, bot: MangaBot) : Session(_user, bot) {
             ),
             from = from,
             to = to,
-            skip = skip.toTypedArray()
+            skip = skip.toIntArray()
         )
 
         bot.send(user, "Scaricamento completato, attendi di ricevere il pdf!")
