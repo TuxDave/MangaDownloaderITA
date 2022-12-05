@@ -7,6 +7,7 @@ fun main(){
     f.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
     f.isResizable = false
     f.isVisible = true
+    f.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
 
     f.contentPane = MainForm()
     f.isVisible = true

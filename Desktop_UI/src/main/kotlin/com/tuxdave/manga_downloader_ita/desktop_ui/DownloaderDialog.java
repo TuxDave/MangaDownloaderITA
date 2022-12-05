@@ -41,17 +41,9 @@ public class DownloaderDialog extends JDialog {
         this.manga = manga;
         this.path = path;
 
-        setResizable(false);
-        pack();
-        setVisible(true);
-
         setContentPane(contentPane);
         setModal(true);
-        annullaButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        annullaButton.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -70,7 +62,7 @@ public class DownloaderDialog extends JDialog {
     }
 
     private void onCancel() {
-        runner.interrupt();
+        if (runner != null) runner.interrupt();
         // TODO: annullare il download
         dispose();
     }
@@ -85,10 +77,12 @@ public class DownloaderDialog extends JDialog {
             int[] skip
     ) {
         DownloaderDialog self = this;
+        System.out.println("ou"); // TODO: 05/12/22 Non arriva qui 
         runner = new Thread() {
             @Override
             public void run() {
                 super.run();
+                System.out.println("download on");
                 Raccolta r = downloadManga(
                         manga,
                         List.of(new PercentageListener(raccoltaProgressBar.getString(), (integer, s) -> {
@@ -124,6 +118,9 @@ public class DownloaderDialog extends JDialog {
             int[] skip
     ) {
         DownloaderDialog dialog = new DownloaderDialog(manga, path, from, to, skip);
+        dialog.setResizable(false);
+        dialog.pack();
+        dialog.setVisible(true);
         dialog.run(manga, path, from, to, skip);
     }
 

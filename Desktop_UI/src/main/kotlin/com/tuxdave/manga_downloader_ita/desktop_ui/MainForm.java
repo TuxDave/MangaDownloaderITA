@@ -186,7 +186,6 @@ public class MainForm extends JPanel {
                     }.start();
                 }
             } else if (downloadButton.equals(actionEvent.getSource())) {
-                System.out.println("wewe");
                 // TODO: 05/12/22 Fare selezionare destinazione e volumi desiderati
                 if (mangaViewer.getManga() != null)
                     DownloaderDialog.show(
