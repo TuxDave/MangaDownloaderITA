@@ -6,6 +6,7 @@ import com.intellij.uiDesigner.core.Spacer;
 import com.tuxdave.manga_downloader_ita.core_shared.entity.Manga;
 import com.tuxdave.manga_downloader_ita.desktop_ui.components.JBlinkingLabel;
 import com.tuxdave.manga_downloader_ita.desktop_ui.components.JSearchField;
+import com.tuxdave.manga_downloader_ita.desktop_ui.components.JVolumiSelector;
 import com.tuxdave.manga_downloader_ita.desktop_ui.components.MangaViewer;
 import com.tuxdave.manga_downloader_ita.scraper.SearchOrderParam;
 
@@ -192,6 +193,8 @@ public class MainForm extends JPanel {
                 }
             } else if (downloadButton.equals(actionEvent.getSource())) {
                 // TODO: 05/12/22 Fare selezionare destinazione e volumi desiderati
+                JVolumiSelector.show(1, 8);
+
                 File target;
                 JFileChooser chooser = new JFileChooser();
                 chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
