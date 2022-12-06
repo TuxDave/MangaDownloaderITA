@@ -63,7 +63,6 @@ public class DownloaderDialog extends JDialog {
 
     private void onCancel() {
         if (runner != null) runner.interrupt();
-        // TODO: annullare il download
         dispose();
     }
 
@@ -77,24 +76,22 @@ public class DownloaderDialog extends JDialog {
             int[] skip
     ) {
         DownloaderDialog self = this;
-        System.out.println("ou"); // TODO: 05/12/22 Non arriva qui 
         runner = new Thread() {
             @Override
             public void run() {
                 super.run();
-                System.out.println("download on");
                 Raccolta r = downloadManga(
                         manga,
                         List.of(new PercentageListener(raccoltaProgressBar.getString(), (integer, s) -> {
-                            raccoltaProgressBar.setString(s + integer.toString());
+                            raccoltaProgressBar.setString(s + integer + "%");
                             return null; //bella per l'Unit di kotlin
                         })),
                         List.of(new PercentageListener(volumeProgressBar.getString(), (p, id) -> {
                             volumeProgressBar.setString(id + p.toString());
                             return null;
                         })),
-                        List.of(new PercentageListener(volumeProgressBar.getString(), (p, id) -> {
-                            volumeProgressBar.setString(id + p.toString());
+                        List.of(new PercentageListener(capitoloProgressBar.getString(), (p, id) -> {
+                            capitoloProgressBar.setString(id + p.toString());
                             return null;
                         })),
                         from,
@@ -120,8 +117,8 @@ public class DownloaderDialog extends JDialog {
         DownloaderDialog dialog = new DownloaderDialog(manga, path, from, to, skip);
         dialog.setResizable(false);
         dialog.pack();
-        dialog.setVisible(true);
         dialog.run(manga, path, from, to, skip);
+        dialog.setVisible(true);
     }
 
     {
