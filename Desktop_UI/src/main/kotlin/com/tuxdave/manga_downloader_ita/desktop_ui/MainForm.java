@@ -215,6 +215,7 @@ public class MainForm extends JPanel {
                 chooser.showSaveDialog(self);
                 target = chooser.getSelectedFile();
 
+
                 if (mangaViewer.getManga() != null && target != null)
                     DownloaderDialog.show(
                             mangaViewer.getManga(),
