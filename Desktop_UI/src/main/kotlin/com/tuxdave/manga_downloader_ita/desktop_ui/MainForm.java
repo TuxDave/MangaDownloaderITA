@@ -192,8 +192,10 @@ public class MainForm extends JPanel {
                     }.start();
                 }
             } else if (downloadButton.equals(actionEvent.getSource())) {
-                // TODO: 05/12/22 Fare selezionare destinazione e volumi desiderati
-                JVolumiSelector.show(1, 8);
+                JVolumiSelector selector = JVolumiSelector.show(1, mangaViewer.getManga().getVolumiTotali());
+                if (!selector.isSelected()) {
+                    return;
+                }
 
                 File target;
                 JFileChooser chooser = new JFileChooser();
@@ -218,14 +220,13 @@ public class MainForm extends JPanel {
                 chooser.showSaveDialog(self);
                 target = chooser.getSelectedFile();
 
-
                 if (mangaViewer.getManga() != null && target != null)
                     DownloaderDialog.show(
                             mangaViewer.getManga(),
                             target,
-                            1,
-                            1,
-                            new int[]{}
+                            selector.getSelectedDown(),
+                            selector.getSelectedUp(),
+                            selector.getSelectedSkip()
                     );
             }
         }

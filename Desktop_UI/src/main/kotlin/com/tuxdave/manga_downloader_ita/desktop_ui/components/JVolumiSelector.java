@@ -3,12 +3,15 @@ package com.tuxdave.manga_downloader_ita.desktop_ui.components;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import com.tuxdave.manga_downloader_ita.desktop_ui.UtilsKt;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Array;
+import java.util.ArrayList;
 
 public class JVolumiSelector extends JDialog implements ActionListener {
     private JPanel contentPane;
@@ -17,8 +20,9 @@ public class JVolumiSelector extends JDialog implements ActionListener {
     private JRadioButton intervalloRadioButton;
     private JRadioButton volumiSparsiRadioButton;
     private JRangePicker rangePicker;
-    private JScrollPane sparsiScroll;
-    private JButton button1;
+    private JPanel sparsiPanel;
+
+    private ArrayList<JCheckBox> sparsiGroup;
 
     @Getter
     @Setter
@@ -42,7 +46,7 @@ public class JVolumiSelector extends JDialog implements ActionListener {
 
     @Getter
     @Setter
-    private int selectedSkip;
+    private int[] selectedSkip;
 
     public JVolumiSelector(int down, int up) {
         this.setUpBound(up);
@@ -54,6 +58,16 @@ public class JVolumiSelector extends JDialog implements ActionListener {
         ButtonGroup g = new ButtonGroup();
         g.add(intervalloRadioButton);
         g.add(volumiSparsiRadioButton);
+        sparsiPanel.setEnabled(false);
+
+        sparsiPanel.setLayout(new BoxLayout(sparsiPanel, BoxLayout.Y_AXIS));
+        JCheckBox c;
+        sparsiGroup = new ArrayList<JCheckBox>();
+        for (int i = downBound; i <= upBound; i++) {
+            c = new JCheckBox("" + i);
+            sparsiGroup.add(c);
+            sparsiPanel.add(c);
+        }
 
         setContentPane(contentPane);
         setModal(true);
@@ -78,7 +92,31 @@ public class JVolumiSelector extends JDialog implements ActionListener {
     }
 
     private void onOK() {
-        // TODO: 06/12/22 assegnare i valori
+        if (intervalloRadioButton.isSelected()) {
+            selectedSkip = new int[]{};
+            selectedDown = rangePicker.getRange()[0];
+            selectedUp = rangePicker.getRange()[1];
+        } else {
+            ArrayList<Integer> checked = new ArrayList<Integer>();
+            for (JCheckBox c : sparsiGroup) {
+                if (c.isSelected()) {
+                    checked.add(Integer.parseInt(c.getText()));
+                }
+            }
+            if (checked.size() == 0) {
+                selected = false;
+                return;
+            }
+            selectedDown = checked.get(0);
+            selectedUp = checked.get(checked.size() - 1);
+            selectedSkip = new int[selectedUp - selectedDown - (checked.size() - 1)];
+            int c = 0;
+            for (int i = selectedDown + 1; i < selectedUp; i++) {
+                if (!checked.contains(i)) {
+                    selectedSkip[c++] = i;
+                }
+            }
+        }
         selected = true;
         dispose();
     }
@@ -88,11 +126,12 @@ public class JVolumiSelector extends JDialog implements ActionListener {
         dispose();
     }
 
-    public static void show(int down, int up) {
+    public static JVolumiSelector show(int down, int up) {
         JVolumiSelector dialog = new JVolumiSelector(down, up);
         dialog.pack();
         dialog.setResizable(false);
         dialog.setVisible(true);
+        return dialog;
     }
 
     /**
@@ -121,7 +160,7 @@ public class JVolumiSelector extends JDialog implements ActionListener {
         buttonCancel.setText("Cancel");
         panel2.add(buttonCancel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
-        panel3.setLayout(new GridLayoutManager(2, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel3.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
         contentPane.add(panel3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         intervalloRadioButton = new JRadioButton();
         intervalloRadioButton.setSelected(true);
@@ -129,14 +168,18 @@ public class JVolumiSelector extends JDialog implements ActionListener {
         panel3.add(intervalloRadioButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         volumiSparsiRadioButton = new JRadioButton();
         volumiSparsiRadioButton.setText("Volumi Sparsi");
-        panel3.add(volumiSparsiRadioButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        panel3.add(rangePicker.$$$getRootComponent$$$(), new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        sparsiScroll = new JScrollPane();
-        sparsiScroll.setEnabled(false);
-        panel3.add(sparsiScroll, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        button1 = new JButton();
-        button1.setText("Button");
-        sparsiScroll.setViewportView(button1);
+        panel3.add(volumiSparsiRadioButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel3.add(rangePicker.$$$getRootComponent$$$(), new GridConstraints(0, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setEnabled(false);
+        panel3.add(scrollPane1, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(70, 175), new Dimension(70, 175), new Dimension(70, 175), 0, false));
+        sparsiPanel = new JPanel();
+        sparsiPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        scrollPane1.setViewportView(sparsiPanel);
+        final Spacer spacer2 = new Spacer();
+        panel3.add(spacer2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(-1, 20), new Dimension(-1, 20), new Dimension(-1, 20), 2, false));
+        final Spacer spacer3 = new Spacer();
+        panel3.add(spacer3, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
     }
 
     /** @noinspection ALL */
@@ -149,15 +192,13 @@ public class JVolumiSelector extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        // TODO: 06/12/22 crea il componente sotto (che non sarà direttamente uno scroll 
-
         if (actionEvent.getSource() == intervalloRadioButton || actionEvent.getSource() == volumiSparsiRadioButton) {
             if (intervalloRadioButton.isSelected()) {
                 rangePicker.setEnabled(true);
-                sparsiScroll.setEnabled(false);
+                sparsiPanel.setEnabled(false);
             } else {
                 rangePicker.setEnabled(false);
-                sparsiScroll.setEnabled(true);
+                sparsiPanel.setEnabled(true);
             }
         }
     }

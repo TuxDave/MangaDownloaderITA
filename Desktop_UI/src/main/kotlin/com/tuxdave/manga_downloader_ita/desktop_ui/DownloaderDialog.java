@@ -83,15 +83,19 @@ public class DownloaderDialog extends JDialog {
                 Raccolta r = downloadManga(
                         manga,
                         List.of(new PercentageListener(raccoltaProgressBar.getString(), (integer, s) -> {
-                            raccoltaProgressBar.setString(s + integer + "%");
+                            raccoltaProgressBar.setString(s + (integer - 1) + "%");
+                            raccoltaProgressBar.setValue(integer);
                             return null; //bella per l'Unit di kotlin
                         })),
                         List.of(new PercentageListener(volumeProgressBar.getString(), (p, id) -> {
-                            volumeProgressBar.setString(id + p.toString());
+                            volumeProgressBar.setString(id + p.toString() + "%");
+                            volumeProgressBar.setValue(p);
+
                             return null;
                         })),
                         List.of(new PercentageListener(capitoloProgressBar.getString(), (p, id) -> {
-                            capitoloProgressBar.setString(id + p.toString());
+                            capitoloProgressBar.setString(id + p.toString() + "%");
+                            capitoloProgressBar.setValue(p);
                             return null;
                         })),
                         from,

@@ -3,7 +3,7 @@ USAGE
 
 JRangePicker r = new JRangePicker(1, 10);
 JDialog d = new JDialog()
-JOptionPane.showMessageDialog(<panel that calls this dialog>, r, "Select a Range", JOptionPane.INFORMATION_MESSAGE);//todo:sistemare questo
+JOptionPane.showMessageDialog(<panel that calls this dialog>, r, "Select a Range", JOptionPane.INFORMATION_MESSAGE);
 int[] i = r.getRange();
 panel1
 
@@ -129,7 +129,7 @@ public class JRangePicker extends JPanel {
 
     public JRangePicker(int _min, int _max) {
         super();
-        if (_min < _max) {
+        if (_min <= _max) {
             max = _max;
             min = _min;
         } else {
