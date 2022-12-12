@@ -3,14 +3,12 @@ package com.tuxdave.manga_downloader_ita.desktop_ui.components;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import com.tuxdave.manga_downloader_ita.desktop_ui.UtilsKt;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Array;
 import java.util.ArrayList;
 
 public class JVolumiSelector extends JDialog implements ActionListener {
@@ -49,6 +47,8 @@ public class JVolumiSelector extends JDialog implements ActionListener {
     private int[] selectedSkip;
 
     public JVolumiSelector(int down, int up) {
+        setTitle("Seleziona i volumi da scaricare...");
+
         this.setUpBound(up);
         this.setDownBound(down);
 

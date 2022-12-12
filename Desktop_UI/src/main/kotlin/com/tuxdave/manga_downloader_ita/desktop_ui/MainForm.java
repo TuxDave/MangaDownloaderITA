@@ -119,7 +119,6 @@ public class MainForm extends JPanel {
         $$$setupUI$$$();
 
         self = this;
-
         this.add(panel1);
 
         searchingLabel.setDuration(750);
@@ -191,7 +190,7 @@ public class MainForm extends JPanel {
                         }
                     }.start();
                 }
-            } else if (downloadButton.equals(actionEvent.getSource())) {
+            } else if (downloadButton.equals(actionEvent.getSource()) && mangaViewer.getManga() != null) {
                 JVolumiSelector selector = JVolumiSelector.show(1, mangaViewer.getManga().getVolumiTotali());
                 if (!selector.isSelected()) {
                     return;
@@ -218,7 +217,11 @@ public class MainForm extends JPanel {
                     }
                 }); //:)
                 chooser.showSaveDialog(self);
-                target = chooser.getSelectedFile();
+                String targetPath = chooser.getSelectedFile().getAbsolutePath();
+                if (!targetPath.substring(targetPath.length() - 4).toLowerCase().equals(".pdf")) {
+                    targetPath += ".pdf";
+                }
+                target = new File(targetPath);
 
                 if (mangaViewer.getManga() != null && target != null)
                     DownloaderDialog.show(

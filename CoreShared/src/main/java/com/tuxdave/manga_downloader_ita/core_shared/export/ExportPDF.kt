@@ -36,7 +36,7 @@ fun exportPDF(manga: Raccolta, file: File) {
     cs.print("FONTE: https://github.com/TuxDave/MangaDownloaderITA", 100, -50, 0F)
     var s = ""
     for (vol in manga.elencoVolumi) {
-        s += "$vol, "
+        s += "$vol°, "
     }
     s = try {
         s.substring(0, s.length - 2)

@@ -41,6 +41,7 @@ public class DownloaderDialog extends JDialog {
         this.manga = manga;
         this.path = path;
 
+        setTitle("Scaricamento in corso...");
         setContentPane(contentPane);
         setModal(true);
         annullaButton.addActionListener(e -> onCancel());
@@ -83,7 +84,7 @@ public class DownloaderDialog extends JDialog {
                 Raccolta r = downloadManga(
                         manga,
                         List.of(new PercentageListener(raccoltaProgressBar.getString(), (integer, s) -> {
-                            raccoltaProgressBar.setString(s + (integer - 1) + "%");
+                            raccoltaProgressBar.setString(s + Math.max(integer - 1, 0) + "%");
                             raccoltaProgressBar.setValue(integer);
                             return null; //bella per l'Unit di kotlin
                         })),
