@@ -6,9 +6,11 @@ import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.PDType1Font
 import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import java.io.ByteArrayInputStream
 import java.io.File
+import javax.imageio.ImageIO
 
 fun PDPageContentStream.print(s: String, x: Int, y: Int, h: Float) {
     beginText()
@@ -69,12 +71,24 @@ fun exportPDF(manga: Raccolta, file: File) {
                 try {
                     image = JPEGFactory.createFromStream(doc, ByteArrayInputStream(pagina))
                     cs.drawImage(image, 0F, 0F, page.mediaBox.width, page.mediaBox.height)
-                } catch (_: Exception) {
+                    cs.close()
+                    doc.addPage(page)
+                    continue
+                } catch (_: Exception) {}
+                try{
+                    image = LosslessFactory.createFromImage(
+                        doc,
+                        ImageIO.read(ByteArrayInputStream(pagina))
+                    )
+                    cs.drawImage(image, 0F, 0F, page.mediaBox.width, page.mediaBox.height)
+                    cs.close()
+                    doc.addPage(page)
+                }catch (e: Exception){
+                    e.printStackTrace()
                     cs.setFont(PDType1Font.COURIER, 24F)
                     cs.print("PAGINA NON TROVATA", 30, 200, page.mediaBox.height)
                 }
-                cs.close()
-                doc.addPage(page)
+
             }
         }
     }
