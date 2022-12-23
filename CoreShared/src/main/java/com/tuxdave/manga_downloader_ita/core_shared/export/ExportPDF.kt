@@ -74,8 +74,9 @@ fun exportPDF(manga: Raccolta, file: File) {
                     cs.close()
                     doc.addPage(page)
                     continue
-                } catch (_: Exception) {}
-                try{
+                } catch (_: Exception) {
+                }
+                try {
                     image = LosslessFactory.createFromImage(
                         doc,
                         ImageIO.read(ByteArrayInputStream(pagina))
@@ -83,7 +84,7 @@ fun exportPDF(manga: Raccolta, file: File) {
                     cs.drawImage(image, 0F, 0F, page.mediaBox.width, page.mediaBox.height)
                     cs.close()
                     doc.addPage(page)
-                }catch (e: Exception){
+                } catch (e: Exception) {
                     e.printStackTrace()
                     cs.setFont(PDType1Font.COURIER, 24F)
                     cs.print("PAGINA NON TROVATA", 30, 200, page.mediaBox.height)
@@ -96,5 +97,3 @@ fun exportPDF(manga: Raccolta, file: File) {
     doc.save(file)
     doc.close()
 }
-
-//https://www.tutorialspoint.com/pdfbox/pdfbox_adding_text.htm
