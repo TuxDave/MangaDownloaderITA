@@ -5,6 +5,7 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import com.tuxdave.manga_downloader_ita.core_shared.entity.Manga;
 import com.tuxdave.manga_downloader_ita.core_shared.view.Raccolta;
+import com.tuxdave.manga_downloader_ita.core_shared.view.Volume;
 import com.tuxdave.manga_downloader_ita.desktop_ui.components.JBlinkingLabel;
 import com.tuxdave.manga_downloader_ita.scraper.PercentageListener;
 
@@ -14,6 +15,7 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,7 +38,8 @@ public class DownloaderDialog extends JDialog {
             File path,
             int from,
             int to,
-            int[] skip
+            int[] skip,
+            boolean split
     ) {
         this.manga = manga;
         this.path = path;
@@ -74,7 +77,8 @@ public class DownloaderDialog extends JDialog {
             File path,
             int from,
             int to,
-            int[] skip
+            int[] skip,
+            boolean split
     ) {
         DownloaderDialog self = this;
         runner = new Thread() {
@@ -104,7 +108,16 @@ public class DownloaderDialog extends JDialog {
                         skip
                 );
                 esportazioneBlinkingLabel.setBlinking(true);
-                exportPDF(r, path);
+                if (split) {
+                    String basePath = path.getParentFile().getAbsolutePath() + "/" + r.getManga().getTitolo();
+                    for (Volume sv : r.getVolumi()) {
+                        List<Volume> lv = new ArrayList<>();
+                        lv.add(sv);
+                        Raccolta sr = new Raccolta(r.getManga(), lv);
+                        exportPDF(sr, new File(basePath + "_volume" + sv.getNumero() + ".pdf"));
+                    }
+                } else
+                    exportPDF(r, path);
                 JOptionPane.showMessageDialog(self, "Scaricamento completato");
                 onCancel();
             }
@@ -117,12 +130,13 @@ public class DownloaderDialog extends JDialog {
             File path,
             int from,
             int to,
-            int[] skip
+            int[] skip,
+            boolean split
     ) {
-        DownloaderDialog dialog = new DownloaderDialog(manga, path, from, to, skip);
+        DownloaderDialog dialog = new DownloaderDialog(manga, path, from, to, skip, split);
         dialog.setResizable(false);
         dialog.pack();
-        dialog.run(manga, path, from, to, skip);
+        dialog.run(manga, path, from, to, skip, split);
         dialog.setVisible(true);
     }
 

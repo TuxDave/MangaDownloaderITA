@@ -229,7 +229,8 @@ public class MainForm extends JPanel {
                             target,
                             selector.getSelectedDown(),
                             selector.getSelectedUp(),
-                            selector.getSelectedSkip()
+                            selector.getSelectedSkip(),
+                            selector.getSingleVolumeEnable().isSelected()
                     );
             }
         }
