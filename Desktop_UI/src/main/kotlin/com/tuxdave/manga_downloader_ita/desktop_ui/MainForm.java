@@ -66,7 +66,7 @@ public class MainForm extends JPanel {
         resultScrollPane.setViewportView(resultsList);
         searchField = new JSearchField();
         searchField.setPlaceHolder("Cerca...");
-        searchField.setText("one piece");
+        searchField.setText("");
         panel2.add(searchField, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(250, -1), new Dimension(-1, 30), null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel1.add(spacer1, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, 1, new Dimension(5, -1), null, new Dimension(5, -1), 0, false));

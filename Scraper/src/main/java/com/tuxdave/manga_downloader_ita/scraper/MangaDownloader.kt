@@ -9,6 +9,7 @@ import com.tuxdave.manga_downloader_ita.core_shared.view.Volume
 import org.apache.commons.io.FileUtils
 import org.jsoup.Jsoup
 import java.io.File
+import java.lang.NumberFormatException
 import java.net.URI
 import java.net.URL
 
@@ -90,7 +91,7 @@ fun downloadCapitolo(cap: URI, listeners: List<PercentageListener> = listOf()): 
             val path = cap.toString().split("read/")[1]
             for(option in options){
                 if(option.attr("value") == path){
-                    capNumber = option.html().split(" ")[1].toInt()
+                    capNumber = option.html().split(" ")[1].toIntOrNull() ?: 0
                 }
             }
         }

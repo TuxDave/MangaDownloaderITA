@@ -51,7 +51,7 @@
             </constraints>
             <properties>
               <placeHolder value="Cerca..."/>
-              <text value="one piece"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
