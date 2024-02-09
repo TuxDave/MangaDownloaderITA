@@ -12,6 +12,8 @@ import java.io.ByteArrayInputStream
 import java.io.File
 import javax.imageio.ImageIO
 
+private fun String?.removeJap() = this?.filter { it.code in 0..255 } ?: ""
+
 fun PDPageContentStream.print(s: String, x: Int, y: Int, h: Float) {
     beginText()
     newLineAtOffset(x.toFloat(), h - y.toFloat())
@@ -30,10 +32,10 @@ fun exportPDF(manga: Raccolta, file: File) {
 
     var cs = PDPageContentStream(doc, page)
     cs.setFont(PDType1Font.COURIER, 28F)
-    cs.print("Manga:       " + manga.manga.titolo, 25, 50, h)
+    cs.print("Manga:       " + manga.manga.titolo.removeJap(), 25, 50, h)
     cs.setFont(PDType1Font.COURIER, 22F)
-    cs.print("Autore:           " + manga.manga.autore?.nome, 25, 75, h)
-    cs.print("Artista:          " + manga.manga.artista?.nome, 25, 100, h)
+    cs.print("Autore:           " + manga.manga.autore?.nome.removeJap(), 25, 75, h)
+    cs.print("Artista:          " + manga.manga.artista?.nome.removeJap(), 25, 100, h)
     cs.setFont(PDType1Font.COURIER, 16F)
     cs.print("FONTE: https://github.com/TuxDave/MangaDownloaderITA", 100, -50, 0F)
     var s = ""
